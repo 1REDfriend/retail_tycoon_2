@@ -59,6 +59,7 @@ function teleportToUnloadDock()
                 local unloadDock = key:FindFirstChild("Door_1"):FindFirstChild("Handle")
                 print("teleportToUnloadDock")
                 TeleportToCFrame(unloadDock.CFrame + Vector3.new(20,10,5))
+                SpawnCar2(unloadDock.CFrame)
                 break
             end
         end
@@ -91,9 +92,9 @@ function SpawnCar()
     wait(1)
 end
 
-function SpawnCar2()
+function SpawnCar2(CFrame : CFrame)
     local playerCFrame = workspace:FindFirstChild(playerName).HumanoidRootPart.CFrame
-    ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("SpawnVehicle"):InvokeServer(1,playerCFrame + Vector3.new(-20,2,-5))
+    ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("SpawnVehicle"):InvokeServer(1,CFrame or (playerCFrame + Vector3.new(-20,2,-5)))
     wait(1)
 end
 
@@ -149,14 +150,20 @@ function AutoDeliveryDock()
     end
 end
 
-folder1:Button("Auto Dock" ,function ()
-    AutoDeliveryDock()
-    wait(2)
-    teleportToUnloadDock()
-    wait(2)
-    SpawnCar2()
-    wait(1)
-    UnLoadDock()
+folder1:Toggle("Auto Dock" ,function(bool)
+    shared.toggle = bool
+    if shared.toggle then
+        spawn(function()
+            while true do
+                AutoDeliveryDock()
+                wait(2)
+                teleportToUnloadDock()
+                wait(2)
+                UnLoadDock()
+                wait(20)
+            end
+        end)
+    end
 end)
 
 folder1:Button("spawn car",function()
@@ -173,8 +180,6 @@ end)
 
 folder1:Button("TP to Undock",function()
     teleportToUnloadDock()
-    wait(2)
-    SpawnCar2()
     wait(2)
     UnLoadDock()
 end)
