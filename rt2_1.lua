@@ -165,7 +165,12 @@ folder1:Toggle("Auto Dock" ,function(bool)
         end)
     end
 end)
-
+folder1:Label("Cheat Made By |REDfriend",{
+    TextSize = 25; -- Self Explaining
+    TextColor = Color3.fromRGB(255, 121, 121); -- Self Explaining
+    BgColor = Color3.fromRGB(255, 255, 255); -- Self Explaining
+    
+}) 
 folder1:Button("spawn car",function()
     SpawnCar()
 end)
